@@ -32,10 +32,7 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  message:
-                    type: string
-                    example: "You entered the following numbers: 1, 2, 3"
+                $ref: "#/components/schemas/EnterDataPayload"
         "400":
           description: Bad Request
           content:
@@ -55,17 +52,6 @@ components:
           $ref: "#/components/schemas/Datum"
         temperature:
           $ref: "#/components/schemas/Datum"
-    Currency:
-      type: object
-      required:
-        - value
-        - currency
-      properties:
-        value:
-          type: number
-          nullable: true
-        currency:
-          type: string
     Unit:
       type: string
       enum:

@@ -53,13 +53,20 @@ describe("POST /enterData", () => {
 
     const response = await server.post("/enterData").send(requestBody);
     expect(response.status).toEqual(400);
-    expect(response.body).toEqual({
-      message:
-        "must be number: #/properties/requestBody/properties/distance/properties/value/type",
-    });
+    expect(response.body.errors.length).toBe(1);
+    expect(response.body.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          message: "must be number",
+          instancePath: "/requestBody/distance/value",
+          schemaPath:
+            "#/properties/requestBody/properties/distance/properties/value/type",
+        }),
+      ]),
+    );
   });
 
-  it("responds with 400 and appropriate message if the request body 'weight' is not a number", async () => {
+  it("responds with 400 and appropriate error if the request body 'weight' is not a number", async () => {
     const requestBody = {
       distance: {
         value: 10,
@@ -77,20 +84,27 @@ describe("POST /enterData", () => {
 
     const response = await server.post("/enterData").send(requestBody);
     expect(response.status).toEqual(400);
-    expect(response.body).toEqual({
-      message:
-        "must be number: #/properties/requestBody/properties/weight/properties/value/type",
-    });
+    expect(response.body.errors.length).toBe(1);
+    expect(response.body.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          message: "must be number",
+          instancePath: "/requestBody/weight/value",
+          schemaPath:
+            "#/properties/requestBody/properties/distance/properties/value/type",
+        }),
+      ]),
+    );
   });
 
-  it("responds with 400 and appropriate message if the request body 'temperature' is not a number", async () => {
+  it("responds with 400 and appropriate errors if the request body 'weight' and 'temperature' are not numbers", async () => {
     const requestBody = {
       distance: {
         value: 10,
         unit: "MILES",
       },
       weight: {
-        value: 150,
+        value: "one-hundred-fifty",
         unit: "POUNDS",
       },
       temperature: {
@@ -101,9 +115,22 @@ describe("POST /enterData", () => {
 
     const response = await server.post("/enterData").send(requestBody);
     expect(response.status).toEqual(400);
-    expect(response.body).toEqual({
-      message:
-        "must be number: #/properties/requestBody/properties/temperature/properties/value/type",
-    });
+    expect(response.body.errors.length).toBe(2);
+    expect(response.body.errors).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          message: "must be number",
+          instancePath: "/requestBody/weight/value",
+          schemaPath:
+            "#/properties/requestBody/properties/distance/properties/value/type",
+        }),
+        expect.objectContaining({
+          message: "must be number",
+          instancePath: "/requestBody/temperature/value",
+          schemaPath:
+            "#/properties/requestBody/properties/distance/properties/value/type",
+        }),
+      ]),
+    );
   });
 });
