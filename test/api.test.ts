@@ -15,7 +15,7 @@ describe("POST /enterData", () => {
   const app = appFactory();
   const server = supertest(app);
 
-  it("responds with data entered", async () => {
+  it("responds with data entered if payload is valid", async () => {
     const requestBody = {
       distance: {
         value: 10,
@@ -91,7 +91,7 @@ describe("POST /enterData", () => {
           message: "must be number",
           instancePath: "/requestBody/weight/value",
           schemaPath:
-            "#/properties/requestBody/properties/distance/properties/value/type",
+            "#/properties/requestBody/properties/weight/properties/value/type",
         }),
       ]),
     );
@@ -122,13 +122,13 @@ describe("POST /enterData", () => {
           message: "must be number",
           instancePath: "/requestBody/weight/value",
           schemaPath:
-            "#/properties/requestBody/properties/distance/properties/value/type",
+            "#/properties/requestBody/properties/weight/properties/value/type",
         }),
         expect.objectContaining({
           message: "must be number",
           instancePath: "/requestBody/temperature/value",
           schemaPath:
-            "#/properties/requestBody/properties/distance/properties/value/type",
+            "#/properties/requestBody/properties/temperature/properties/value/type",
         }),
       ]),
     );
