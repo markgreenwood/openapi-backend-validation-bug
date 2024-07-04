@@ -1,0 +1,98 @@
+openapi: 3.0.0
+info:
+  title: Test app for openapi-backend validation
+  description: Demo validation error for openapi-backend
+  version: 1.0.0
+paths:
+  /hello:
+    get:
+      operationId: helloWorld
+      summary: Hello World
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HelloResponse"
+  /enterData:
+    post:
+      operationId: updateProject
+      summary: Modifies a project by updating any fields included in the payload
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProjectPayload"
+      responses:
+        "200":
+          description: "Report back numbers entered"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "You entered the following numbers: 1, 2, 3"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+components:
+  schemas:
+    HelloResponse:
+      type: string
+    UpdateProjectPayload:
+      type: object
+      properties:
+        distance:
+          $ref: "#/components/schemas/Datum"
+        weight:
+          $ref: "#/components/schemas/Datum"
+        temperature:
+          $ref: "#/components/schemas/Datum"
+    Currency:
+      type: object
+      required:
+        - value
+        - currency
+      properties:
+        value:
+          type: number
+          nullable: true
+        currency:
+          type: string
+    Unit:
+      type: string
+      enum:
+        [
+          "FEET",
+          "METERS",
+          "MILES",
+          "KILOMETERS",
+          "KILOGRAMS",
+          "POUNDS",
+          "DEGREES_CELSIUS",
+          "DEGREES_FAHRENHEIT",
+        ]
+    Datum:
+      type: object
+      required:
+        - value
+        - unit
+      properties:
+        value:
+          type: number
+        unit:
+          $ref: "#/components/schemas/Unit"
+    BadRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string

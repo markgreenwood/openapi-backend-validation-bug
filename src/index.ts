@@ -1,10 +1,11 @@
-function getAThing(): Promise<string> {
-  return Promise.resolve("a thing");
+import { appFactory } from "./appFactory.js";
+
+function main() {
+  const server = appFactory();
+
+  server.listen(3000, () => {
+    console.log("Listening on port 3000");
+  });
 }
 
-async function main() {
-  const aThing = await getAThing();
-  console.log(aThing);
-}
-
-await main();
+main();
