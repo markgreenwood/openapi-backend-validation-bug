@@ -1,0 +1,5 @@
+dist
+generated
+node_modules
+.eslintrc.cjs
+jest.config.cjs
