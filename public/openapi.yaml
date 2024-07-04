@@ -6,7 +6,7 @@ info:
 paths:
   /hello:
     get:
-      operationId: helloWorld
+      operationId: hello
       summary: Hello World
       responses:
         200:
@@ -17,14 +17,14 @@ paths:
                 $ref: "#/components/schemas/HelloResponse"
   /enterData:
     post:
-      operationId: updateProject
-      summary: Modifies a project by updating any fields included in the payload
+      operationId: enterData
+      summary: Enters some data and parrots it back
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UpdateProjectPayload"
+              $ref: "#/components/schemas/EnterDataPayload"
       responses:
         "200":
           description: "Report back numbers entered"
@@ -46,7 +46,7 @@ components:
   schemas:
     HelloResponse:
       type: string
-    UpdateProjectPayload:
+    EnterDataPayload:
       type: object
       properties:
         distance:
